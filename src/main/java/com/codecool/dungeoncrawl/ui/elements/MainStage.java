@@ -7,16 +7,16 @@ import javafx.scene.layout.BorderPane;
 public class MainStage {
     private Canvas canvas;
     private Scene scene;
-    private StatusPane statusPane;
+    private StatusPanel statusPanel;
 
     public MainStage(Canvas canvas) {
         this.canvas = canvas;
-        statusPane = new StatusPane();
+        statusPanel = new StatusPanel();
         scene = setUpScene();
     }
 
     private Scene setUpScene() {
-        BorderPane borderPane = statusPane.build();
+        BorderPane borderPane = statusPanel.build();
         borderPane.setCenter(canvas);
         Scene scene = new Scene(borderPane);
         return scene;
@@ -27,6 +27,16 @@ public class MainStage {
     }
 
     public void setHealthLabelText(String text) {
-        this.statusPane.setHealthValue(text);
+        this.statusPanel.setHealthValue(text);
     }
+
+    public void setInventoryLabelText(String text) {
+        this.statusPanel.setInventoryLabel(text);
+    }
+
+    public void setAttackPowerLabel(String text) {
+        this.statusPanel.setAttackPowerLabel(text);
+    }
+
+
 }

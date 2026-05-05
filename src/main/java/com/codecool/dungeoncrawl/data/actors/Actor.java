@@ -2,31 +2,31 @@ package com.codecool.dungeoncrawl.data.actors;
 
 import com.codecool.dungeoncrawl.data.Cell;
 import com.codecool.dungeoncrawl.data.Drawable;
+import com.codecool.dungeoncrawl.data.items.Item;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class Actor implements Drawable {
-    private Cell cell;
-    private int health = 10;
+    protected Cell cell;
+    protected int health;
+    protected int attackPower;
 
-    public Actor(Cell cell) {
+    public Actor(Cell cell, int health, int attackPower) {
         this.cell = cell;
         this.cell.setActor(this);
+        this.health = health;
+        this.attackPower = attackPower;
     }
 
-    public void move(int dx, int dy) {
-        Cell nextCell = cell.getNeighbor(dx, dy);
-        if (!nextCell.getTileName().equals("wall")) {
-            if (nextCell.getActor() != null) {
-                // Start fight with enemy
-            } else {
-                cell.setActor(null);
-                nextCell.setActor(this);
-                cell = nextCell;
-            }
-        }
-    }
+    public abstract void move(int dx, int dy);
 
     public int getHealth() {
         return health;
+    }
+
+    public void addHealth(int health) {
+        this.health += health;
     }
 
     public Cell getCell() {
