@@ -39,4 +39,12 @@ public class GameMap {
     public int getHeight() {
         return height;
     }
+
+    public Cell[][] getCells() {
+        Cell[][] copy = new Cell[cells.length][];
+        for (int i = 0; i < cells.length; i++) {
+            copy[i] = cells[i].clone();
+        }
+        return copy;
+    }
 }

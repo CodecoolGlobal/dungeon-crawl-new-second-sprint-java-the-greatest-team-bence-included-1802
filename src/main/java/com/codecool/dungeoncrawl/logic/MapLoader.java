@@ -11,7 +11,10 @@ import com.codecool.dungeoncrawl.data.items.Health;
 import com.codecool.dungeoncrawl.data.items.Key;
 import com.codecool.dungeoncrawl.data.items.Sword;
 
+import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Scanner;
 
 public class MapLoader {
@@ -44,6 +47,12 @@ public class MapLoader {
                             break;
                         case '2':
                             cell.setType(CellType.TREES);
+                            break;
+                        case 'v':
+                            cell.setType(CellType.SAVE);
+                            break;
+                        case 'l':
+                            cell.setType(CellType.LOAD);
                             break;
                         case 'w':
                             cell.setType(CellType.WC);
@@ -84,5 +93,4 @@ public class MapLoader {
         }
         return map;
     }
-
 }

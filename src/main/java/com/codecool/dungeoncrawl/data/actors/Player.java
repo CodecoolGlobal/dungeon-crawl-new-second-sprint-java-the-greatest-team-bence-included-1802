@@ -1,7 +1,9 @@
 package com.codecool.dungeoncrawl.data.actors;
 
 import com.codecool.dungeoncrawl.data.Cell;
+import com.codecool.dungeoncrawl.data.GameMap;
 import com.codecool.dungeoncrawl.data.items.Item;
+import com.codecool.dungeoncrawl.service.SaveService;
 import com.codecool.dungeoncrawl.ui.Tiles;
 import javafx.application.Platform;
 
@@ -9,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Player extends Actor {
-    private List<Item> inventory = new ArrayList<>();
 
     public Player(Cell cell) {
         super(cell, 10, 5);
@@ -27,15 +28,25 @@ public class Player extends Actor {
                 !nextCell.getTileName().equals("trees")) {
 
             if (nextCell.getTileName().equals("wc")) {
+                List<Item> inventory = getInventory();
                 for (Item item : inventory) {
                     if (!item.getTileName().equals("key")) {
                         if (item.getTileName().equals("sword")) {
                             attackPower -= 5;
                             Tiles.changeTileMap("player", 25, 0);
                         }
-                        inventory.remove(item);
+                        removeInventoryItem(item);
                     }
                 }
+            }
+
+            if (nextCell.getTileName().equals("save")) {
+                GameMap gameMap = nextCell.getGameMap();
+                SaveService.save(gameMap);
+            }
+
+            if (nextCell.getTileName().equals("load")) {
+                //load previous save
             }
 
             if (nextCell.getActor() != null) {
@@ -63,7 +74,7 @@ public class Player extends Actor {
                             attackPower += 5;
                             Tiles.changeTileMap("player", 27, 0);
                         }
-                        inventory.add(nextCell.getItem());
+                        addItem(nextCell.getItem());
                     }
                     nextCell.setItem(null);
                 }
@@ -76,13 +87,9 @@ public class Player extends Actor {
 
     public String getInventoryString() {
         StringBuilder sb = new StringBuilder();
-        for (Item item : inventory) {
+        for (Item item : getInventory()) {
             sb.append(item.getDisplayName()).append("\n");
         }
         return sb.toString();
-    }
-
-    public int getAttackPower() {
-       return attackPower;
     }
 }
