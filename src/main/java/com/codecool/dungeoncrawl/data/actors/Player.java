@@ -22,7 +22,22 @@ public class Player extends Actor {
     @Override
     public void move(int dx, int dy) {
         Cell nextCell = cell.getNeighbor(dx, dy);
-        if (!nextCell.getTileName().equals("wall")) {
+        if (!nextCell.getTileName().equals("wall") &&
+                !nextCell.getTileName().equals("tree") &&
+                !nextCell.getTileName().equals("trees")) {
+
+            if (nextCell.getTileName().equals("wc")) {
+                for (Item item : inventory) {
+                    if (!item.getTileName().equals("key")) {
+                        if (item.getTileName().equals("sword")) {
+                            attackPower -= 5;
+                            Tiles.changeTileMap("player", 25, 0);
+                        }
+                        inventory.remove(item);
+                    }
+                }
+            }
+
             if (nextCell.getActor() != null) {
                 Actor enemy = nextCell.getActor();
                 enemy.addHealth(-this.attackPower);
