@@ -16,7 +16,7 @@ public class SaveService {
     public static void save(GameMap gameMap) {
         DataSource dataSource;
         try {
-            dataSource = connect();
+            dataSource = SQLService.connect();
         } catch (SQLException exception) {
             throw new RuntimeException("Failed to connect to the SQL", exception);
         }
@@ -44,19 +44,5 @@ public class SaveService {
         for (Item inventoryItem : inventory) {
             saveDAO.saveInventoryItem(inventoryItem.getDisplayName());
         }
-    }
-
-    private static DataSource connect() throws SQLException {
-        PGSimpleDataSource dataSource = new PGSimpleDataSource();
-
-        dataSource.setDatabaseName("dungeon_crawl");
-        dataSource.setUser("postgres");
-        dataSource.setPassword("Q4w3e2r1!");
-
-        System.out.println("Trying to connect...");
-        dataSource.getConnection().close();
-        System.out.println("Connection OK");
-
-        return dataSource;
     }
 }

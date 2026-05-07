@@ -47,6 +47,18 @@ public abstract class Actor implements Drawable {
         this.health += health;
     }
 
+    public void setHealth(int health) {
+        if (health > 0) {
+            this.health = health;
+        }
+    }
+
+    public void setAttackPower(int attackPower) {
+        if (health > 0) {
+            this.attackPower = attackPower;
+        }
+    }
+
     public Cell getCell() {
         return cell;
     }

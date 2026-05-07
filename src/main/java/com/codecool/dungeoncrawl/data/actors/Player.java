@@ -1,6 +1,5 @@
 package com.codecool.dungeoncrawl.data.actors;
 
-import com.codecool.dungeoncrawl.dao.LoadDAO;
 import com.codecool.dungeoncrawl.data.Cell;
 import com.codecool.dungeoncrawl.data.GameMap;
 import com.codecool.dungeoncrawl.data.items.Item;
@@ -26,7 +25,8 @@ public class Player extends Actor {
         Cell nextCell = cell.getNeighbor(dx, dy);
         if (!nextCell.getTileName().equals("wall") &&
                 !nextCell.getTileName().equals("tree") &&
-                !nextCell.getTileName().equals("trees")) {
+                !nextCell.getTileName().equals("trees") &&
+                !nextCell.getTileName().equals("empty")) {
 
             if (nextCell.getTileName().equals("wc")) {
                 List<Item> inventory = getInventory();
@@ -49,7 +49,8 @@ public class Player extends Actor {
             if (nextCell.getTileName().equals("load")) {
                 GameMap gameMap = nextCell.getGameMap();
                 //load previous save
-                LoadService.load(gameMap);
+                LoadService loadService = new LoadService(gameMap);
+                loadService.load();
                 return;
             }
 
