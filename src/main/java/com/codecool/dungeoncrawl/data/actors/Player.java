@@ -1,13 +1,14 @@
 package com.codecool.dungeoncrawl.data.actors;
 
+import com.codecool.dungeoncrawl.dao.LoadDAO;
 import com.codecool.dungeoncrawl.data.Cell;
 import com.codecool.dungeoncrawl.data.GameMap;
 import com.codecool.dungeoncrawl.data.items.Item;
+import com.codecool.dungeoncrawl.service.LoadService;
 import com.codecool.dungeoncrawl.service.SaveService;
 import com.codecool.dungeoncrawl.ui.Tiles;
 import javafx.application.Platform;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Player extends Actor {
@@ -46,7 +47,10 @@ public class Player extends Actor {
             }
 
             if (nextCell.getTileName().equals("load")) {
+                GameMap gameMap = nextCell.getGameMap();
                 //load previous save
+                LoadService.load(gameMap);
+                return;
             }
 
             if (nextCell.getActor() != null) {
