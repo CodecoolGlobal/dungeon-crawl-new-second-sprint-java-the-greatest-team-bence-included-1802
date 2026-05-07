@@ -1,9 +1,7 @@
 package com.codecool.dungeoncrawl.dao;
 
 import javax.sql.DataSource;
-import java.sql.SQLException;
-
-import org.postgresql.ds.PGSimpleDataSource;
+import java.sql.*;
 
 public class SaveDAO {
     private final DataSource dataSource;
@@ -13,24 +11,67 @@ public class SaveDAO {
     }
 
     public void resetTables() {
-        // Reset items, actors, inventory_items table
-        // DELETE * FROM items;
-        // DELETE * FROM actors;
-        // DELETE * FROM inventory_items;
+        try (Connection conn = dataSource.getConnection()) {
+            String[] sqls = {
+                    "DELETE FROM actors",
+                    "DELETE FROM items",
+                    "DELETE FROM inventory_items"
+            };
+
+            for (String sql : sqls) {
+                try (PreparedStatement st = conn.prepareStatement(sql)) {
+                    st.executeUpdate();
+                }
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Author cannot be added to database.", e);
+        }
     }
 
     public void saveActor(String name, int x, int y, int health, int attackPower) {
-        System.out.println(name + x + y + health + attackPower);
-        // INSERT INTO actors (name, x, y, health, attackPower) VALUES (name, x, y, health, attackPower)
+
+        try (Connection conn = dataSource.getConnection()) {
+            String sql = "INSERT INTO actors (name, x, y, health, attackpower) VALUES (?, ?, ?, ?, ?)";
+
+            PreparedStatement st = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            st.setString(1, name);
+            st.setInt(2, x);
+            st.setInt(3, y);
+            st.setInt(4, health);
+            st.setInt(5, attackPower);
+            st.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Actor cannot be added to database.", e);
+        }
     }
 
     public void saveItem(String name, int x, int y) {
-        System.out.println(name + x + y);
-        // INSERT INTO item (name, x, y) VALUES (name, x, y)
+        try (Connection conn = dataSource.getConnection()) {
+            String sql = "INSERT INTO items (name, x, y) VALUES (?, ?, ?)";
+
+            PreparedStatement st = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            st.setString(1, name);
+            st.setInt(2, x);
+            st.setInt(3, y);
+            st.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Author cannot be added to database.", e);
+        }
     }
 
     public void saveInventoryItem(String name) {
-        System.out.println(name);
-        // INSERT INTO item (name) VALUES (name)
+        try (Connection conn = dataSource.getConnection()) {
+            String sql = "INSERT INTO inventory_items (name) VALUES (?)";
+
+            PreparedStatement st = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            st.setString(1, name);
+            st.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Author cannot be added to database.", e);
+        }
     }
 }
