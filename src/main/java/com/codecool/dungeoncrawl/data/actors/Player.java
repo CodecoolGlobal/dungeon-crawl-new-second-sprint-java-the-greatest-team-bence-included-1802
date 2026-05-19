@@ -31,7 +31,8 @@ public class Player extends Actor {
         if (cell.getY() + dy < 0 || cell.getY() + dy >= cell.getGameMap().getHeight()) {
             return;
         }
-        
+
+
         Cell nextCell = cell.getNeighbor(dx, dy);
 
         if (nextCell.getActor() != null) {
