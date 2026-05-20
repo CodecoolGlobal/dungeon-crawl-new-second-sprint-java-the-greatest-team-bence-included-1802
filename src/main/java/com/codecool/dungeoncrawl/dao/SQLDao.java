@@ -137,7 +137,7 @@ public class SQLDao {
 
         dataSource.setDatabaseName("dungeon_crawl");
         dataSource.setUser("postgres");
-        dataSource.setPassword("Q4w3e2r1!");
+        dataSource.setPassword("codecool2026");
 
         System.out.println("Trying to connect...");
         dataSource.getConnection().close();

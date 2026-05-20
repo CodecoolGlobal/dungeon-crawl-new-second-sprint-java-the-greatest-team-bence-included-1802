@@ -122,4 +122,22 @@ public class Player extends Actor {
         }
         return sb.toString();
     }
+
+    public void interact() {
+        Cell[] neighbors = {
+                getCell().getNeighbor(0, -1),
+                getCell().getNeighbor(0, 1),
+                getCell().getNeighbor(-1, 0),
+                getCell().getNeighbor(1, 0)
+        };
+
+        for (Cell cell : neighbors) {
+            Actor actor = cell.getActor();
+
+            if (actor instanceof Merchant merchant) {
+                System.out.println("Shop opened");
+                return;
+            }
+        }
+    }
 }
