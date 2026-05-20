@@ -1,5 +1,6 @@
 package com.codecool.dungeoncrawl.data;
 
+import com.codecool.dungeoncrawl.data.actors.Ghost;
 import com.codecool.dungeoncrawl.data.actors.Player;
 
 public class GameMap {
@@ -8,6 +9,7 @@ public class GameMap {
     private Cell[][] cells;
 
     private Player player;
+    private Ghost ghost;
 
     public GameMap(int width, int height, CellType defaultCellType) {
         this.width = width;
@@ -31,6 +33,10 @@ public class GameMap {
     public Player getPlayer() {
         return player;
     }
+
+    public Ghost getGhost() { return ghost; }
+
+    public void setGhost(Ghost ghost) { this.ghost = ghost; }
 
     public int getWidth() {
         return width;

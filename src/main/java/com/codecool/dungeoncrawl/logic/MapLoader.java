@@ -3,18 +3,12 @@ package com.codecool.dungeoncrawl.logic;
 import com.codecool.dungeoncrawl.data.Cell;
 import com.codecool.dungeoncrawl.data.CellType;
 import com.codecool.dungeoncrawl.data.GameMap;
-import com.codecool.dungeoncrawl.data.actors.Cat;
-import com.codecool.dungeoncrawl.data.actors.Dragon;
-import com.codecool.dungeoncrawl.data.actors.Player;
-import com.codecool.dungeoncrawl.data.actors.Skeleton;
+import com.codecool.dungeoncrawl.data.actors.*;
 import com.codecool.dungeoncrawl.data.items.Health;
 import com.codecool.dungeoncrawl.data.items.Key;
 import com.codecool.dungeoncrawl.data.items.Sword;
 
-import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.Scanner;
 
 public class MapLoader {
@@ -60,6 +54,10 @@ public class MapLoader {
                         case 's':
                             cell.setType(CellType.FLOOR);
                             new Skeleton(cell);
+                            break;
+                        case '§':
+                            cell.setType(CellType.FLOOR);
+                            map.setGhost(new Ghost(cell));
                             break;
                         case 'c':
                             cell.setType(CellType.FLOOR);
