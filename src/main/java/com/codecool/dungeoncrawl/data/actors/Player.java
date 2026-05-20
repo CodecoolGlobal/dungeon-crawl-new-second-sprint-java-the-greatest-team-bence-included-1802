@@ -2,6 +2,7 @@ package com.codecool.dungeoncrawl.data.actors;
 
 import com.codecool.dungeoncrawl.data.Cell;
 import com.codecool.dungeoncrawl.data.items.Item;
+import com.codecool.dungeoncrawl.data.items.ShopItem;
 import com.codecool.dungeoncrawl.service.SQLService;
 import com.codecool.dungeoncrawl.ui.Tiles;
 import com.codecool.dungeoncrawl.ui.windows.ShopWindow;
@@ -136,7 +137,8 @@ public class Player extends Actor {
             Actor actor = cell.getActor();
 
             if (actor instanceof Merchant merchant) {
-                new ShopWindow().show();
+                List<ShopItem> shopItemList = merchant.getWares();
+                new ShopWindow(shopItemList).show();
             }
         }
     }
