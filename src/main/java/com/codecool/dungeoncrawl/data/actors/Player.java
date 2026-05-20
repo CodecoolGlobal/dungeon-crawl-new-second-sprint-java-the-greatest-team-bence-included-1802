@@ -11,12 +11,16 @@ import java.util.List;
 public class Player extends Actor {
 
     private final SQLService sqlService;
+    private int moveMultiplier = 1;
 
     public Player(Cell cell) {
         super(cell, 10, 5);
         sqlService = new SQLService(cell.getGameMap());
     }
 
+    public void setMoveMultiplier(int moveMultiplier){
+        this.moveMultiplier = moveMultiplier;
+    }
     @Override
     public String getTileName() {
         return "player";
@@ -24,6 +28,10 @@ public class Player extends Actor {
 
     @Override
     public void move(int dx, int dy) {
+        dx *= moveMultiplier;
+        dy *= moveMultiplier;
+        moveMultiplier = 1;
+
         // Out of bounds check
         if (cell.getX() + dx < 0 || cell.getX() + dx >= cell.getGameMap().getWidth()) {
             return;
@@ -40,6 +48,7 @@ public class Player extends Actor {
 
         } else if (nextCell.getItem() != null) {
             pickUpItem(nextCell);
+            step(nextCell);
 
         } else {
             switch (nextCell.getTileName()) {
