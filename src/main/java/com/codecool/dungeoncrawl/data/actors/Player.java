@@ -1,12 +1,14 @@
 package com.codecool.dungeoncrawl.data.actors;
 
 import com.codecool.dungeoncrawl.data.Cell;
+import com.codecool.dungeoncrawl.data.CellType;
 import com.codecool.dungeoncrawl.data.items.Item;
 import com.codecool.dungeoncrawl.service.SQLService;
 import com.codecool.dungeoncrawl.ui.Tiles;
 import javafx.application.Platform;
 
 import java.util.List;
+import java.util.random.RandomGenerator;
 
 public class Player extends Actor {
 
@@ -31,7 +33,6 @@ public class Player extends Actor {
         if (cell.getY() + dy < 0 || cell.getY() + dy >= cell.getGameMap().getHeight()) {
             return;
         }
-
 
         Cell nextCell = cell.getNeighbor(dx, dy);
 
@@ -99,6 +100,13 @@ public class Player extends Actor {
     private void pickUpItem(Cell nextCell) {
         if (nextCell.getItem().getTileName().equals("health")) {
             this.addHealth(5);
+
+        } else if (nextCell.getItem().getTileName().equals("magicCigarette")) {
+            Cell targetCell = getTargetCell();
+            cell.setActor(null);
+            cell = targetCell;
+            targetCell.setActor(this);
+
         } else {
             if (nextCell.getItem().getTileName().equals("sword")) {
                 attackPower += 5;
@@ -107,6 +115,21 @@ public class Player extends Actor {
             addItem(nextCell.getItem());
         }
         nextCell.setItem(null);
+    }
+
+    private Cell getTargetCell() {
+        RandomGenerator gen = RandomGenerator.getDefault();
+        int randomX = gen.nextInt(0, cell.getGameMap().getWidth() - 1);
+        int randomY = gen.nextInt(0, cell.getGameMap().getHeight() - 1);
+        Cell[][] cells = cell.getGameMap().getCells();
+        Cell targetCell = cells[randomX][randomY];
+
+        while (!targetCell.getType().equals(CellType.FLOOR)) {
+            randomX = gen.nextInt(0, cell.getGameMap().getWidth() - 1);
+            randomY = gen.nextInt(0, cell.getGameMap().getHeight() - 1);
+            targetCell = cells[randomX][randomY];
+        }
+        return targetCell;
     }
 
     private void step(Cell nextCell) {

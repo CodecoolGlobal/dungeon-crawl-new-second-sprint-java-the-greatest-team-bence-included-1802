@@ -2,19 +2,17 @@ package com.codecool.dungeoncrawl.data.items;
 
 import com.codecool.dungeoncrawl.data.Cell;
 
-public class Key extends Item{
-
-    public Key(Cell cell) {
+public class MagicCigarette extends Item{
+    public MagicCigarette(Cell cell) {
         super(cell);
     }
 
     @Override
     public String getTileName() {
-        return "key";
+        return "magicCigarette";
     }
 
-    @Override
     public String getDisplayName() {
-        return "Key";
+        return "Magic cigarette";
     }
 }
