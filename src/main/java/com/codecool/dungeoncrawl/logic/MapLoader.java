@@ -10,6 +10,7 @@ import com.codecool.dungeoncrawl.data.actors.Skeleton;
 import com.codecool.dungeoncrawl.data.items.Health;
 import com.codecool.dungeoncrawl.data.items.Key;
 import com.codecool.dungeoncrawl.data.items.Sword;
+import com.codecool.dungeoncrawl.service.SQLService;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -71,7 +72,7 @@ public class MapLoader {
                             break;
                         case '@':
                             cell.setType(CellType.FLOOR);
-                            map.setPlayer(new Player(cell));
+                            map.setPlayer(new Player(cell, new SQLService(cell.getGameMap())));
                             break;
                         case '|':
                             cell.setType(CellType.FLOOR);

@@ -4,16 +4,18 @@ import com.codecool.dungeoncrawl.data.CellType;
 import com.codecool.dungeoncrawl.data.GameMap;
 import com.codecool.dungeoncrawl.data.actors.Player;
 import com.codecool.dungeoncrawl.data.actors.Skeleton;
+import com.codecool.dungeoncrawl.service.SQLService;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class ActorTest {
     GameMap gameMap = new GameMap(3, 3, CellType.FLOOR);
+    SQLService sqlService = new SQLService(gameMap);
 
     @Test
     void moveUpdatesCells() {
-        Player player = new Player(gameMap.getCell(1, 1));
+        Player player = new Player(gameMap.getCell(1, 1), sqlService);
         player.move(1, 0);
 
         assertEquals(2, player.getX());
@@ -25,7 +27,7 @@ class ActorTest {
     @Test
     void cannotMoveIntoWall() {
         gameMap.getCell(2, 1).setType(CellType.WALL);
-        Player player = new Player(gameMap.getCell(1, 1));
+        Player player = new Player(gameMap.getCell(1, 1), sqlService);
         player.move(1, 0);
 
         assertEquals(1, player.getX());
@@ -34,7 +36,7 @@ class ActorTest {
 
     @Test
     void cannotMoveOutOfMap() {
-        Player player = new Player(gameMap.getCell(2, 1));
+        Player player = new Player(gameMap.getCell(2, 1), sqlService);
         player.move(1, 0);
 
         assertEquals(2, player.getX());
@@ -43,7 +45,7 @@ class ActorTest {
 
     @Test
     void cannotMoveIntoAnotherActor() {
-        Player player = new Player(gameMap.getCell(1, 1));
+        Player player = new Player(gameMap.getCell(1, 1), sqlService);
         Skeleton skeleton = new Skeleton(gameMap.getCell(2, 1));
         player.move(1, 0);
 

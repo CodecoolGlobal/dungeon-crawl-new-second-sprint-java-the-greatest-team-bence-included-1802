@@ -12,9 +12,9 @@ public class Player extends Actor {
 
     private final SQLService sqlService;
 
-    public Player(Cell cell) {
+    public Player(Cell cell, SQLService sqlService) {
         super(cell, 10, 5);
-        sqlService = new SQLService(cell.getGameMap());
+        this.sqlService = sqlService;
     }
 
     @Override

@@ -90,7 +90,7 @@ public class SQLService {
 
         actor = switch (name) {
             case "player" -> {
-                gameMap.setPlayer(new Player(cells[x][y]));
+                gameMap.setPlayer(new Player(cells[x][y], new SQLService(gameMap)));
                 yield gameMap.getPlayer();
             }
             case "skeleton" -> new Skeleton(cells[x][y]);
