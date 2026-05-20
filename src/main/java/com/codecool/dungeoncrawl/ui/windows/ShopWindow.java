@@ -1,5 +1,7 @@
 package com.codecool.dungeoncrawl.ui.windows;
 
+import com.codecool.dungeoncrawl.data.actors.Merchant;
+import com.codecool.dungeoncrawl.data.actors.Player;
 import com.codecool.dungeoncrawl.data.items.ShopItem;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -14,11 +16,20 @@ public class ShopWindow {
 
     private Stage stage;
     private List<ShopItem> shopItemList;
+    private Player player;
+    private Merchant merchant;
 
-    public ShopWindow(List<ShopItem> shopItemList) {
+    public ShopWindow(List<ShopItem> shopItemList, Player player, Merchant merchant) {
 
         stage = new Stage();
         this.shopItemList = shopItemList;
+        this.player = player;
+        this.merchant = merchant;
+
+
+
+
+
 
         VBox root = new VBox();
         Label title = new Label("Szia Uram! parfüm érdekel?");

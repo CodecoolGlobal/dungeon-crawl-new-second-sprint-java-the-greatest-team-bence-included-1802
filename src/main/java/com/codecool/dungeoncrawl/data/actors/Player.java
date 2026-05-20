@@ -138,7 +138,7 @@ public class Player extends Actor {
 
             if (actor instanceof Merchant merchant) {
                 List<ShopItem> shopItemList = merchant.getWares();
-                new ShopWindow(shopItemList).show();
+                new ShopWindow(shopItemList, this, merchant).show();
             }
         }
     }
