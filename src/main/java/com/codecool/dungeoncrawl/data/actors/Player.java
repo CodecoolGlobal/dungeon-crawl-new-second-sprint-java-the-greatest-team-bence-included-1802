@@ -91,6 +91,9 @@ public class Player extends Actor {
                 if (item.getTileName().equals("sword")) {
                     attackPower -= 5;
                     Tiles.changeTileMap("player", 25, 0);
+                } else if (item.getTileName().equals("gun")) {
+                    attackPower -= 10;
+                    Tiles.changeTileMap("player", 25, 0);
                 }
                 removeInventoryItem(item);
             }
@@ -106,11 +109,14 @@ public class Player extends Actor {
             cell.setActor(null);
             cell = targetCell;
             targetCell.setActor(this);
-
+            
         } else {
             if (nextCell.getItem().getTileName().equals("sword")) {
                 attackPower += 5;
                 Tiles.changeTileMap("player", 27, 0);
+            } else if (nextCell.getItem().getTileName().equals("gun")) {
+                attackPower += 10;
+                Tiles.changeTileMap("player", 26, 0);
             }
             addItem(nextCell.getItem());
         }

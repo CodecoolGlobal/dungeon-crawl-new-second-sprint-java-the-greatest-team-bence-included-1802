@@ -7,10 +7,7 @@ import com.codecool.dungeoncrawl.data.actors.Cat;
 import com.codecool.dungeoncrawl.data.actors.Dragon;
 import com.codecool.dungeoncrawl.data.actors.Player;
 import com.codecool.dungeoncrawl.data.actors.Skeleton;
-import com.codecool.dungeoncrawl.data.items.Health;
-import com.codecool.dungeoncrawl.data.items.Key;
-import com.codecool.dungeoncrawl.data.items.MagicCigarette;
-import com.codecool.dungeoncrawl.data.items.Sword;
+import com.codecool.dungeoncrawl.data.items.*;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -89,6 +86,10 @@ public class MapLoader {
                         case 'm':
                             cell.setType(CellType.FLOOR);
                             new MagicCigarette(cell);
+                            break;
+                        case 'g':
+                            cell.setType(CellType.FLOOR);
+                            new Gun(cell);
                             break;
                         default:
                             throw new RuntimeException("Unrecognized character: '" + line.charAt(x) + "'");
