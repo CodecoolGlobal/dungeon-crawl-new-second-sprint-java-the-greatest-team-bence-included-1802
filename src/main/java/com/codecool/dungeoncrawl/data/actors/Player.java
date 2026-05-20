@@ -32,7 +32,6 @@ public class Player extends Actor {
             return;
         }
 
-
         Cell nextCell = cell.getNeighbor(dx, dy);
 
         if (nextCell.getActor() != null) {
