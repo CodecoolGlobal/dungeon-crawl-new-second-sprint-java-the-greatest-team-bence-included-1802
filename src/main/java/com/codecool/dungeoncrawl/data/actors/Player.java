@@ -1,7 +1,11 @@
 package com.codecool.dungeoncrawl.data.actors;
 
 import com.codecool.dungeoncrawl.data.Cell;
+import com.codecool.dungeoncrawl.data.CellType;
+import com.codecool.dungeoncrawl.data.GameMap;
 import com.codecool.dungeoncrawl.data.items.Item;
+import com.codecool.dungeoncrawl.logic.Game;
+import com.codecool.dungeoncrawl.logic.MapLoader;
 import com.codecool.dungeoncrawl.service.SQLService;
 import com.codecool.dungeoncrawl.ui.Tiles;
 import javafx.application.Platform;
@@ -53,6 +57,12 @@ public class Player extends Actor {
                 case "save":
                     save(nextCell);
                     break;
+                case "door":
+                    openDoor(nextCell);
+                    break;
+                case "opendoor":
+                    goToNextArea(nextCell);
+                    break;
                 case "load":
                     load();
                     break;
@@ -63,6 +73,21 @@ public class Player extends Actor {
     private void save(Cell nextCell) {
         sqlService.save();
         step(nextCell);
+    }
+
+    private void openDoor(Cell nextCell) {
+        for (Item item : getInventory()) {
+            if (item.getTileName().equals("key")) {
+                removeInventoryItem(item);
+                nextCell.setType(CellType.OPENDOOR);
+                break;
+            }
+        }
+    }
+
+    private void goToNextArea(Cell nextCell) {
+        GameMap gameMap = nextCell.getGameMap();
+        Game.logic.setMap(MapLoader.loadMap(gameMap.getMapId() + 1, this));
     }
 
     private void load() {

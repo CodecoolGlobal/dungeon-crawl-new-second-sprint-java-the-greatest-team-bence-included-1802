@@ -8,7 +8,9 @@ public enum CellType {
     TREES("trees"),
     WC("wc"),
     SAVE("save"),
-    LOAD("load");
+    LOAD("load"),
+    DOOR("door"),
+    OPENDOOR("opendoor");
 
     private final String tileName;
 
