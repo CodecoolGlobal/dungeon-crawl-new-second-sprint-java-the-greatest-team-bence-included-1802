@@ -4,6 +4,7 @@ import com.codecool.dungeoncrawl.data.Cell;
 import com.codecool.dungeoncrawl.data.items.Item;
 import com.codecool.dungeoncrawl.service.SQLService;
 import com.codecool.dungeoncrawl.ui.Tiles;
+import com.codecool.dungeoncrawl.ui.windows.ShopWindow;
 import javafx.application.Platform;
 
 import java.util.List;
@@ -135,8 +136,7 @@ public class Player extends Actor {
             Actor actor = cell.getActor();
 
             if (actor instanceof Merchant merchant) {
-                System.out.println("Shop opened");
-                return;
+                new ShopWindow().show();
             }
         }
     }
