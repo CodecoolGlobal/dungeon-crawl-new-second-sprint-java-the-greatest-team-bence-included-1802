@@ -1,7 +1,9 @@
 package com.codecool.dungeoncrawl.data.actors;
 
 import com.codecool.dungeoncrawl.data.Cell;
+import com.codecool.dungeoncrawl.data.items.Cigarette;
 import com.codecool.dungeoncrawl.data.items.ShopItem;
+import com.codecool.dungeoncrawl.data.items.SuccessfulPA;
 import com.codecool.dungeoncrawl.data.items.Sword;
 
 import java.util.ArrayList;
@@ -15,9 +17,9 @@ public class Merchant extends Actor{
     public Merchant(Cell cell) {
         super(cell, 1000000, 0);
         wares = new ArrayList<>();
-        wares.add(new ShopItem(new Sword(null), 50));
-        wares.add(new ShopItem(new Sword(null), 100));
-        wares.add(new ShopItem(new Sword(null), 300));
+        wares.add(new ShopItem(new Cigarette(null), 1));
+        wares.add(new ShopItem(new Cigarette(null), 1));
+        wares.add(new ShopItem(new SuccessfulPA(null), 3));
     }
 
     @Override

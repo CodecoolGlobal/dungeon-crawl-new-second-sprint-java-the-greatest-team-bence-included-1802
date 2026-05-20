@@ -15,6 +15,8 @@ public class StatusPanel {
     private Label inventoryValueLabel;
     private Label attackPowerTextLabel;
     private Label attackPowerValueLabel;
+    private Label goldLabel;
+    private Label goldValueLabel;
 
     public StatusPanel() {
         ui = new GridPane();
@@ -24,6 +26,8 @@ public class StatusPanel {
         attackPowerValueLabel = new Label();
         inventoryTextLabel = new Label("Inventory: ");
         inventoryValueLabel = new Label();
+        goldLabel = new Label("Gold: ");
+        goldValueLabel = new Label();
     }
 
     public BorderPane build() {
@@ -40,6 +44,9 @@ public class StatusPanel {
         ui.add(inventoryTextLabel, 0, 2);
         ui.add(inventoryValueLabel, 1,2);
 
+        ui.add(goldLabel, 0, 3);
+        ui.add(goldValueLabel, 1, 3);
+
         BorderPane borderPane = new BorderPane();
         borderPane.setRight(ui);
         return borderPane;
@@ -52,4 +59,8 @@ public class StatusPanel {
     public void setInventoryLabel(String text) { inventoryValueLabel.setText(text); }
 
     public void setAttackPowerLabel(String text) { attackPowerValueLabel.setText(text); }
+
+    public void setGoldLabel(String text) {
+        goldValueLabel.setText(text);
+    }
 }

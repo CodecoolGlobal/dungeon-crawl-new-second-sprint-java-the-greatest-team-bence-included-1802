@@ -136,8 +136,8 @@ public class SQLDao {
         PGSimpleDataSource dataSource = new PGSimpleDataSource();
 
         dataSource.setDatabaseName("dungeon_crawl");
-        dataSource.setUser("postgres");
-        dataSource.setPassword("codecool2026");
+        dataSource.setUser(System.getenv("DB_USER"));
+        dataSource.setPassword(System.getenv("DB_PASSWORD"));
 
         System.out.println("Trying to connect...");
         dataSource.getConnection().close();

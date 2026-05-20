@@ -19,10 +19,10 @@ public class ShopWindow {
     private Player player;
     private Merchant merchant;
 
-    public ShopWindow(List<ShopItem> shopItemList, Player player, Merchant merchant) {
+    public ShopWindow(Player player, Merchant merchant) {
 
         stage = new Stage();
-        this.shopItemList = shopItemList;
+        this.shopItemList = merchant.getWares();
         this.player = player;
         this.merchant = merchant;
 
@@ -46,6 +46,10 @@ public class ShopWindow {
             );
 
             Button buyButton = new Button("buy");
+            buyButton.setOnAction(e -> {
+                player.purchase(item);
+                stage.close();
+            });
 
             itemRow.getChildren().addAll(itemLabel, priceLabel, buyButton);
             root.getChildren().add(itemRow);
