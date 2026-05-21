@@ -104,7 +104,7 @@ public class Player extends Actor {
         if (nextCell.getItem().getTileName().equals("health")) {
             this.addHealth(5);
 
-        } else if (nextCell.getItem().getTileName().equals("magicCigarette")) {
+        } else if (nextCell.getItem().getTileName().equals("magicWand")) {
             Cell targetCell = getTargetCell();
             cell.setActor(null);
             cell = targetCell;

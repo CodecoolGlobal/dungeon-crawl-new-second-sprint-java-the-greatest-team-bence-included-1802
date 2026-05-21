@@ -9,10 +9,7 @@ import com.codecool.dungeoncrawl.data.actors.Player;
 import com.codecool.dungeoncrawl.data.actors.Skeleton;
 import com.codecool.dungeoncrawl.data.items.*;
 
-import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.Scanner;
 
 public class MapLoader {
@@ -85,7 +82,7 @@ public class MapLoader {
                             break;
                         case 'm':
                             cell.setType(CellType.FLOOR);
-                            new MagicCigarette(cell);
+                            new MagicWand(cell);
                             break;
                         case 'g':
                             cell.setType(CellType.FLOOR);
