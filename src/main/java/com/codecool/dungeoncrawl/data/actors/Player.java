@@ -22,9 +22,9 @@ public class Player extends Actor {
     private int moveMultiplier = 1;
     private int gold = 0;
 
-    public Player(Cell cell) {
+    public Player(Cell cell, SQLService sqlService) {
         super(cell, 10, 5);
-        sqlService = new SQLService(cell.getGameMap());
+        this.sqlService = sqlService;
     }
 
     public void setMoveMultiplier(int moveMultiplier){
