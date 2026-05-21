@@ -13,6 +13,10 @@ import com.codecool.dungeoncrawl.data.actors.Dragon;
 import com.codecool.dungeoncrawl.data.actors.Player;
 import com.codecool.dungeoncrawl.data.actors.Skeleton;
 import com.codecool.dungeoncrawl.data.items.*;
+import com.codecool.dungeoncrawl.data.actors.*;
+import com.codecool.dungeoncrawl.data.items.Health;
+import com.codecool.dungeoncrawl.data.items.Key;
+import com.codecool.dungeoncrawl.data.items.Sword;
 
 import java.io.InputStream;
 import java.util.Scanner;
@@ -60,6 +64,10 @@ public class MapLoader {
                         case 's':
                             cell.setType(CellType.FLOOR);
                             new Skeleton(cell);
+                            break;
+                        case '§':
+                            cell.setType(CellType.FLOOR);
+                            map.setGhost(new Ghost(cell));
                             break;
                         case 'n':
                             cell.setType(CellType.DOOR);
