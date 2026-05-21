@@ -32,7 +32,7 @@ public class ShopWindow {
 
 
         VBox root = new VBox();
-        Label title = new Label("Szia Uram! parfüm érdekel?");
+        Label title = new Label("Store");
         root.getChildren().add(title);
 
         for (ShopItem item : shopItemList) {
@@ -56,7 +56,7 @@ public class ShopWindow {
         }
 
 
-        Button closeButton = new Button("Kösz bástya!");
+        Button closeButton = new Button("Close");
         closeButton.setOnAction(e -> stage.close());
         root.getChildren().add(closeButton);
 

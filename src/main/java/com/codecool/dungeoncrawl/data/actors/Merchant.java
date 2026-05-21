@@ -18,7 +18,6 @@ public class Merchant extends Actor{
         super(cell, 1000000, 0);
         wares = new ArrayList<>();
         wares.add(new ShopItem(new Cigarette(null), 1));
-        wares.add(new ShopItem(new Cigarette(null), 1));
         wares.add(new ShopItem(new SuccessfulPA(null), 3));
     }
 
