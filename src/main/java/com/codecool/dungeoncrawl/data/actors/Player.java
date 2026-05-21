@@ -1,6 +1,7 @@
 package com.codecool.dungeoncrawl.data.actors;
 
 import com.codecool.dungeoncrawl.data.Cell;
+import com.codecool.dungeoncrawl.data.items.*;
 import com.codecool.dungeoncrawl.data.CellType;
 import com.codecool.dungeoncrawl.data.GameMap;
 import com.codecool.dungeoncrawl.data.items.Item;
@@ -8,6 +9,7 @@ import com.codecool.dungeoncrawl.logic.Game;
 import com.codecool.dungeoncrawl.logic.MapLoader;
 import com.codecool.dungeoncrawl.service.SQLService;
 import com.codecool.dungeoncrawl.ui.Tiles;
+import com.codecool.dungeoncrawl.ui.windows.ShopWindow;
 import javafx.application.Platform;
 
 import java.util.List;
@@ -16,6 +18,7 @@ public class Player extends Actor {
 
     private final SQLService sqlService;
     private int moveMultiplier = 1;
+    private int gold = 0;
 
     public Player(Cell cell) {
         super(cell, 10, 5);
@@ -131,16 +134,19 @@ public class Player extends Actor {
     }
 
     private void pickUpItem(Cell nextCell) {
-        if (nextCell.getItem().getTileName().equals("health")) {
+        if (nextCell.getItem() instanceof Health) {
             this.addHealth(5);
+        } else if (nextCell.getItem() instanceof Gold) {
+            gold++;
         } else {
-            if (nextCell.getItem().getTileName().equals("sword")) {
+            if (nextCell.getItem() instanceof Sword) {
                 attackPower += 5;
                 Tiles.changeTileMap("player", 27, 0);
             }
             addItem(nextCell.getItem());
         }
         nextCell.setItem(null);
+
     }
 
     private void step(Cell nextCell) {
@@ -149,11 +155,42 @@ public class Player extends Actor {
         cell = nextCell;
     }
 
+    public int getPlayerGold() {
+        return gold;
+    }
+
     public String getInventoryString() {
         StringBuilder sb = new StringBuilder();
         for (Item item : getInventory()) {
             sb.append(item.getDisplayName()).append("\n");
         }
         return sb.toString();
+    }
+
+    public void interact() {
+        Cell[] neighbors = {
+                getCell().getNeighbor(0, -1),
+                getCell().getNeighbor(0, 1),
+                getCell().getNeighbor(-1, 0),
+                getCell().getNeighbor(1, 0)
+        };
+
+        for (Cell cell : neighbors) {
+            Actor actor = cell.getActor();
+
+            if (actor instanceof Merchant merchant) {
+                new ShopWindow(this, merchant).show();
+            }
+        }
+    }
+
+    public void purchase(ShopItem shopItem) {
+        if (gold >= shopItem.getPrice()) {
+            addItem(shopItem.getItem());
+            gold -= shopItem.getPrice();
+            System.out.println("Purchased");
+        } else {
+            System.out.println("No money in the bank.");
+        }
     }
 }

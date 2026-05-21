@@ -65,5 +65,6 @@ public class UI {
         mainStage.setHealthLabelText(logic.getPlayerHealth());
         mainStage.setInventoryLabelText(logic.getPlayerInventory());
         mainStage.setAttackPowerLabel(logic.getPlayerAttackPower());
+        mainStage.setGoldLabelText(logic.getPlayerGold());
     }
 }

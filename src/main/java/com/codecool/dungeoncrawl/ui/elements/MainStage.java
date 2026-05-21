@@ -38,5 +38,9 @@ public class MainStage {
         this.statusPanel.setAttackPowerLabel(text);
     }
 
+    public void setGoldLabelText(String text) {
+        this.statusPanel.setGoldLabel(text);
+    }
+
 
 }

@@ -41,6 +41,9 @@ public class GameLogic {
         return Integer.toString(map.getPlayer().getAttackPower());
     }
 
+    public String getPlayerGold() {
+        return Integer.toString(map.getPlayer().getPlayerGold());
+    }
 
     public GameMap getMap() {
         return map;
