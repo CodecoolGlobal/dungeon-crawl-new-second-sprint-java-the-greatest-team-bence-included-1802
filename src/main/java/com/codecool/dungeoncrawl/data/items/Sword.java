@@ -13,6 +13,7 @@ public class Sword extends Item {
        return "sword";
     }
 
+    @Override
     public String getDisplayName() {
         return "Sword";
     }

@@ -8,11 +8,13 @@ import com.codecool.dungeoncrawl.data.items.Gold;
 import com.codecool.dungeoncrawl.data.items.Health;
 import com.codecool.dungeoncrawl.data.items.Key;
 import com.codecool.dungeoncrawl.data.items.Sword;
+import com.codecool.dungeoncrawl.data.actors.Cat;
+import com.codecool.dungeoncrawl.data.actors.Dragon;
+import com.codecool.dungeoncrawl.data.actors.Player;
+import com.codecool.dungeoncrawl.data.actors.Skeleton;
+import com.codecool.dungeoncrawl.data.items.*;
 
-import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.Scanner;
 
 public class MapLoader {
@@ -174,6 +176,14 @@ public class MapLoader {
                         case 'h':
                             cell.setType(CellType.FLOOR);
                             new Health(cell);
+                            break;
+                        case 'm':
+                            cell.setType(CellType.FLOOR);
+                            new MagicWand(cell);
+                            break;
+                        case 'g':
+                            cell.setType(CellType.FLOOR);
+                            new Gun(cell);
                             break;
                         default:
                             throw new RuntimeException("Unrecognized character: '" + line.charAt(x) + "'");

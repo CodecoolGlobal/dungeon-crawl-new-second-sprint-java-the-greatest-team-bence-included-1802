@@ -4,6 +4,7 @@ import com.codecool.dungeoncrawl.data.Cell;
 import com.codecool.dungeoncrawl.data.items.*;
 import com.codecool.dungeoncrawl.data.CellType;
 import com.codecool.dungeoncrawl.data.GameMap;
+import com.codecool.dungeoncrawl.data.CellType;
 import com.codecool.dungeoncrawl.data.items.Item;
 import com.codecool.dungeoncrawl.logic.Game;
 import com.codecool.dungeoncrawl.logic.MapLoader;
@@ -13,6 +14,7 @@ import com.codecool.dungeoncrawl.ui.windows.ShopWindow;
 import javafx.application.Platform;
 
 import java.util.List;
+import java.util.random.RandomGenerator;
 
 public class Player extends Actor {
 
@@ -46,7 +48,6 @@ public class Player extends Actor {
         if (cell.getY() + dy < 0 || cell.getY() + dy >= cell.getGameMap().getHeight()) {
             return;
         }
-
 
         Cell nextCell = cell.getNeighbor(dx, dy);
 
@@ -127,6 +128,9 @@ public class Player extends Actor {
                 if (item.getTileName().equals("sword")) {
                     attackPower -= 5;
                     Tiles.changeTileMap("player", 25, 0);
+                } else if (item.getTileName().equals("gun")) {
+                    attackPower -= 10;
+                    Tiles.changeTileMap("player", 25, 0);
                 }
                 removeInventoryItem(item);
             }
@@ -138,15 +142,40 @@ public class Player extends Actor {
             this.addHealth(5);
         } else if (nextCell.getItem() instanceof Gold) {
             gold++;
+
+        } else if (nextCell.getItem().getTileName().equals("magicWand")) {
+            Cell targetCell = getTargetCell();
+            cell.setActor(null);
+            cell = targetCell;
+            targetCell.setActor(this);
+
         } else {
             if (nextCell.getItem() instanceof Sword) {
                 attackPower += 5;
                 Tiles.changeTileMap("player", 27, 0);
+            } else if (nextCell.getItem().getTileName().equals("gun")) {
+                attackPower += 10;
+                Tiles.changeTileMap("player", 26, 0);
             }
             addItem(nextCell.getItem());
         }
         nextCell.setItem(null);
 
+    }
+
+    private Cell getTargetCell() {
+        RandomGenerator gen = RandomGenerator.getDefault();
+        int randomX = gen.nextInt(0, cell.getGameMap().getWidth() - 1);
+        int randomY = gen.nextInt(0, cell.getGameMap().getHeight() - 1);
+        Cell[][] cells = cell.getGameMap().getCells();
+        Cell targetCell = cells[randomX][randomY];
+
+        while (!targetCell.getType().equals(CellType.FLOOR)) {
+            randomX = gen.nextInt(0, cell.getGameMap().getWidth() - 1);
+            randomY = gen.nextInt(0, cell.getGameMap().getHeight() - 1);
+            targetCell = cells[randomX][randomY];
+        }
+        return targetCell;
     }
 
     private void step(Cell nextCell) {
