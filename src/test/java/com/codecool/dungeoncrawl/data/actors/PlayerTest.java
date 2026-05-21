@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
 public class PlayerTest {
-    GameMap gameMap = new GameMap(4, 4, CellType.FLOOR);
+    GameMap gameMap = new GameMap(4, 4, CellType.FLOOR, 1);
     Player player = new Player(gameMap.getCell(1, 1), new SQLService(gameMap));
 
     @BeforeAll
@@ -110,7 +110,7 @@ public class PlayerTest {
         player.move(1, 0);
 
         gameMap.getCell(3,1).setType(CellType.WC);
-        player.move(2, 0);
+        player.move(1, 0);
 
         assertEquals(5, player.getAttackPower());
     }
