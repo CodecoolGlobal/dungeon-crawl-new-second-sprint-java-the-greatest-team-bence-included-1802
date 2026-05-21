@@ -20,6 +20,7 @@ public class UI {
     private MainStage mainStage;
     private GameLogic logic;
     private Set<KeyHandler> keyHandlers;
+    private Stage primaryStage;
 
 
     public UI(GameLogic logic, Set<KeyHandler> keyHandlers) {
@@ -33,6 +34,7 @@ public class UI {
     }
 
     public void setUpPain(Stage primaryStage) {
+        this.primaryStage = primaryStage;
         Scene scene = mainStage.getScene();
         primaryStage.setScene(scene);
         logic.setup();
@@ -48,6 +50,14 @@ public class UI {
     }
 
     public void refresh() {
+        double expectedWidth = logic.getMapWidth() * Tiles.TILE_WIDTH;
+        double expectedHeight = logic.getMapHeight() * Tiles.TILE_WIDTH;
+        if (canvas.getWidth() != expectedWidth || canvas.getHeight() != expectedHeight) {
+            canvas.setWidth(expectedWidth);
+            canvas.setHeight(expectedHeight);
+            primaryStage.sizeToScene();
+        }
+
         context.setFill(Color.BLACK);
         context.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
         for (int x = 0; x < logic.getMapWidth(); x++) {

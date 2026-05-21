@@ -20,7 +20,8 @@ public class Player extends Actor {
 
     private final SQLService sqlService;
     private int moveMultiplier = 1;
-    private int gold = 0;
+    private int cooldown = 0;
+    Actor follower;
 
     public Player(Cell cell, SQLService sqlService) {
         super(cell, 10, 5);
@@ -28,7 +29,10 @@ public class Player extends Actor {
     }
 
     public void setMoveMultiplier(int moveMultiplier){
-        this.moveMultiplier = moveMultiplier;
+        if (cooldown <= 0) {
+            this.moveMultiplier = moveMultiplier;
+            cooldown =  3;
+        }
     }
     @Override
     public String getTileName() {
@@ -37,6 +41,7 @@ public class Player extends Actor {
 
     @Override
     public void move(int dx, int dy) {
+        cooldown--;
         dx *= moveMultiplier;
         dy *= moveMultiplier;
         moveMultiplier = 1;
@@ -56,8 +61,6 @@ public class Player extends Actor {
 
         } else if (nextCell.getItem() != null) {
             pickUpItem(nextCell);
-            step(nextCell);
-
         } else {
             switch (nextCell.getTileName()) {
                 case "floor":
@@ -109,15 +112,17 @@ public class Player extends Actor {
 
     private void fight(Cell nextCell) {
         Actor enemy = nextCell.getActor();
-        enemy.addHealth(-this.attackPower);
-        if (enemy.getHealth() > 0) {
-            this.addHealth(-enemy.attackPower);
-            if (this.health <= 0) {
-                System.out.println("You dead");
-                Platform.exit();
+        if (!(enemy instanceof Cat) && !(enemy instanceof Merchant)) {
+            enemy.addHealth(-this.attackPower);
+            if (enemy.getHealth() > 0) {
+                this.addHealth(-enemy.attackPower);
+                if (this.health <= 0) {
+                    System.out.println("You dead");
+                    Platform.exit();
+                }
+            } else {
+                step(nextCell);
             }
-        } else {
-            step(nextCell);
         }
     }
 
@@ -141,14 +146,15 @@ public class Player extends Actor {
         if (nextCell.getItem() instanceof Health) {
             this.addHealth(5);
         } else if (nextCell.getItem() instanceof Gold) {
-            gold++;
+            increaseGold(1);
 
         } else if (nextCell.getItem().getTileName().equals("magicWand")) {
             Cell targetCell = getTargetCell();
             cell.setActor(null);
             cell = targetCell;
             targetCell.setActor(this);
-
+            nextCell.setItem(null);
+            return;
         } else {
             if (nextCell.getItem() instanceof Sword) {
                 attackPower += 5;
@@ -160,7 +166,7 @@ public class Player extends Actor {
             addItem(nextCell.getItem());
         }
         nextCell.setItem(null);
-
+        step(nextCell);
     }
 
     private Cell getTargetCell() {
@@ -170,7 +176,7 @@ public class Player extends Actor {
         Cell[][] cells = cell.getGameMap().getCells();
         Cell targetCell = cells[randomX][randomY];
 
-        while (!targetCell.getType().equals(CellType.FLOOR)) {
+        while (!targetCell.getType().equals(CellType.FLOOR) || targetCell.getActor() != null || targetCell.getItem() != null) {
             randomX = gen.nextInt(0, cell.getGameMap().getWidth() - 1);
             randomY = gen.nextInt(0, cell.getGameMap().getHeight() - 1);
             targetCell = cells[randomX][randomY];
@@ -179,13 +185,13 @@ public class Player extends Actor {
     }
 
     private void step(Cell nextCell) {
+        Cell lastCell = this.getCell();
         cell.setActor(null);
         nextCell.setActor(this);
         cell = nextCell;
-    }
-
-    public int getPlayerGold() {
-        return gold;
+        if (follower != null) {
+            follower.move(lastCell.getX() - follower.getX(), lastCell.getY() - follower.getY());
+        }
     }
 
     public String getInventoryString() {
@@ -209,14 +215,16 @@ public class Player extends Actor {
 
             if (actor instanceof Merchant merchant) {
                 new ShopWindow(this, merchant).show();
+            } else if (actor instanceof Cat) {
+                follower = actor;
             }
         }
     }
 
     public void purchase(ShopItem shopItem) {
-        if (gold >= shopItem.getPrice()) {
+        if (getGold() >= shopItem.getPrice()) {
             addItem(shopItem.getItem());
-            gold -= shopItem.getPrice();
+            increaseGold(-shopItem.getPrice());;
             System.out.println("Purchased");
         } else {
             System.out.println("No money in the bank.");

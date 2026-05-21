@@ -38,7 +38,9 @@ public class GameMap {
 
     public Ghost getGhost() { return ghost; }
 
-    public void setGhost(Ghost ghost) { this.ghost = ghost; }
+    public void setGhost(Ghost ghost) {
+        this.ghost = ghost;
+    }
 
     public int getWidth() {
         return width;

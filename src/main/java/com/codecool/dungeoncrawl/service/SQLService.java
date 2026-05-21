@@ -38,7 +38,7 @@ public class SQLService {
                 Item item = cells[i][j].getItem();
 
                 if (actor != null) {
-                    sqlDao.saveActor(mapId, actor.getTileName(), actor.getX(), actor.getY(), actor.getHealth(), actor.getAttackPower());
+                    sqlDao.saveActor(mapId, actor.getTileName(), actor.getX(), actor.getY(), actor.getHealth(), actor.getAttackPower(), actor.getGold());
                 }
                 if (item != null) {
                     sqlDao.saveItem(mapId, item.getTileName(), item.getCell().getX(), item.getCell().getY());
@@ -62,18 +62,17 @@ public class SQLService {
         for (Cell[] cell : cells) {
             for (Cell value : cell) {
 
-                if (value.getTileName().equals("load")) {
-                    value.setType(CellType.LOAD);
+                if (!value.getTileName().equals("load") && !value.getTileName().equals("merchant")) {
+                    value.setActor(null);
+                    value.setItem(null);
                 }
-                value.setActor(null);
-                value.setItem(null);
             }
         }
         gameMap.setPlayer(null);
 
         List<ActorData> actors = sqlDao.loadActors(mapId);
         for (ActorData actorData : actors) {
-            loadActor(actorData.name(), actorData.x(), actorData.y(), actorData.health(), actorData.attackPower());
+            loadActor(actorData.name(), actorData.x(), actorData.y(), actorData.health(), actorData.attackPower(), actorData.gold());
         }
 
         List<ItemData> items = sqlDao.loadItems(mapId);
@@ -87,7 +86,7 @@ public class SQLService {
         }
     }
 
-    private void loadActor(String name, int x, int y, int health, int attackPower) {
+    private void loadActor(String name, int x, int y, int health, int attackPower, int gold) {
         Actor actor = null;
         Cell[][] cells = gameMap.getCells();
 
@@ -105,6 +104,7 @@ public class SQLService {
         if (actor != null) {
             actor.setHealth(health);
             actor.setAttackPower(attackPower);
+            actor.increaseGold(gold);
             cells[x][y].setActor(actor);
         }
     }

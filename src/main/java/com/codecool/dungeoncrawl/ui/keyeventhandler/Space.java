@@ -10,7 +10,7 @@ public class Space implements KeyHandler{
     @Override
     public void perform(KeyEvent event, GameMap map) {
         if (code.equals(event.getCode()))
-            map.getPlayer().setMoveMultiplier(2);
+            map.getPlayer().setMoveMultiplier(3);
     }
 
 }

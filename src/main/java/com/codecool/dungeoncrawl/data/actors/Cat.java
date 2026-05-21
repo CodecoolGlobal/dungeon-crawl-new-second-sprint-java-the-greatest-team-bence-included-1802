@@ -8,7 +8,12 @@ public class Cat extends Actor {
     }
 
     @Override
-    public void move(int dx, int dy) {}
+    public void move(int dx, int dy) {
+        Cell nextCell = cell.getNeighbor(dx, dy);
+        getCell().setActor(null);
+        nextCell.setActor(this);
+        cell = nextCell;
+    }
 
     @Override
     public String getTileName() {

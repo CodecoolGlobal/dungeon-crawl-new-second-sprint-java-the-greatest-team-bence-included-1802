@@ -23,10 +23,10 @@ public class SQLDao {
 
     //SAVE
 
-    public void saveActor(int mapId, String name, int x, int y, int health, int attackPower) {
+    public void saveActor(int mapId, String name, int x, int y, int health, int attackPower, int gold) {
 
         try (Connection conn = dataSource.getConnection()) {
-            String sql = "INSERT INTO actors (mapId, name, x, y, health, attackpower) VALUES (?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO actors (mapId, name, x, y, health, attackpower, gold) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
             PreparedStatement st = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             st.setInt(1, mapId);
@@ -35,6 +35,7 @@ public class SQLDao {
             st.setInt(4, y);
             st.setInt(5, health);
             st.setInt(6, attackPower);
+            st.setInt(7, gold);
             st.executeUpdate();
 
         } catch (SQLException e) {
@@ -88,7 +89,8 @@ public class SQLDao {
                         rs.getInt("x"),
                         rs.getInt("y"),
                         rs.getInt("health"),
-                        rs.getInt("attackPower")));
+                        rs.getInt("attackPower"),
+                        rs.getInt("gold")));
             }
             return actors;
         } catch (SQLException e) {

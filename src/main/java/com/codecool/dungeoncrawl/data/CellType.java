@@ -10,6 +10,7 @@ public enum CellType {
     SAVE("save"),
     LOAD("load"),
     DOOR("door"),
+    MERCHANT("merchant"),
     OPENDOOR("opendoor");
 
     private final String tileName;

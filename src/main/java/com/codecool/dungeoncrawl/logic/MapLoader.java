@@ -14,10 +14,8 @@ import com.codecool.dungeoncrawl.data.actors.Player;
 import com.codecool.dungeoncrawl.data.actors.Skeleton;
 import com.codecool.dungeoncrawl.data.items.*;
 import com.codecool.dungeoncrawl.data.actors.*;
-import com.codecool.dungeoncrawl.data.items.Health;
-import com.codecool.dungeoncrawl.data.items.Key;
-import com.codecool.dungeoncrawl.data.items.Sword;
 import com.codecool.dungeoncrawl.service.SQLService;
+import com.codecool.dungeoncrawl.ui.UI;
 
 import java.io.InputStream;
 import java.util.Scanner;
@@ -97,12 +95,20 @@ public class MapLoader {
                             cell.setType(CellType.FLOOR);
                             new Health(cell);
                             break;
+                        case 'ŀ':
+                            cell.setType(CellType.FLOOR);
+                            new MagicWand(cell);
+                            break;
+                        case 'ͳ':
+                            cell.setType(CellType.FLOOR);
+                            new Gun(cell);
+                            break;
                         case 'g':
                             cell.setType(CellType.FLOOR);
                             new Gold(cell);
                             break;
                         case 'm':
-                            cell.setType(CellType.WALL);
+                            cell.setType(CellType.MERCHANT);
                             new Merchant(cell);
                             break;
                         default:
@@ -157,6 +163,10 @@ public class MapLoader {
                             cell.setType(CellType.FLOOR);
                             new Skeleton(cell);
                             break;
+                        case '§':
+                            cell.setType(CellType.FLOOR);
+                            map.setGhost(new Ghost(cell));
+                            break;
                         case 'n':
                             cell.setType(CellType.DOOR);
                             break;
@@ -186,13 +196,21 @@ public class MapLoader {
                             cell.setType(CellType.FLOOR);
                             new Health(cell);
                             break;
-                        case 'm':
+                        case 'ŀ':
                             cell.setType(CellType.FLOOR);
                             new MagicWand(cell);
                             break;
-                        case 'g':
+                        case 'ͳ':
                             cell.setType(CellType.FLOOR);
                             new Gun(cell);
+                            break;
+                        case 'g':
+                            cell.setType(CellType.FLOOR);
+                            new Gold(cell);
+                            break;
+                        case 'm':
+                            cell.setType(CellType.MERCHANT);
+                            new Merchant(cell);
                             break;
                         default:
                             throw new RuntimeException("Unrecognized character: '" + line.charAt(x) + "'");

@@ -42,7 +42,7 @@ public class GameLogic {
     }
 
     public String getPlayerGold() {
-        return Integer.toString(map.getPlayer().getPlayerGold());
+        return Integer.toString(map.getPlayer().getGold());
     }
 
     public GameMap getMap() {
