@@ -9,7 +9,7 @@ import java.util.Set;
 
 public class Game extends Application {
     private UI ui;
-    private GameLogic logic;
+    public static GameLogic logic;
     private Set<KeyHandler> keyHandlers;
 
     public static void main(String[] args) {
@@ -18,8 +18,8 @@ public class Game extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        this.keyHandlers = Set.of(new Up(), new Down(), new Left(), new Right(), new Space());
-        this.logic = new GameLogic();
+        this.keyHandlers = Set.of(new Up(), new Down(), new Left(), new Right());
+        logic = new GameLogic();
         this.ui = new UI(logic, keyHandlers);
         ui.setUpPain(primaryStage);
 

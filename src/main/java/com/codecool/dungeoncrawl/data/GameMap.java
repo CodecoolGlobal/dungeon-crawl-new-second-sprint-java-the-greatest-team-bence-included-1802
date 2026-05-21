@@ -6,10 +6,11 @@ public class GameMap {
     private int width;
     private int height;
     private Cell[][] cells;
+    private int mapId;
 
     private Player player;
 
-    public GameMap(int width, int height, CellType defaultCellType) {
+    public GameMap(int width, int height, CellType defaultCellType, int mapId) {
         this.width = width;
         this.height = height;
         cells = new Cell[width][height];
@@ -18,6 +19,7 @@ public class GameMap {
                 cells[x][y] = new Cell(this, x, y, defaultCellType);
             }
         }
+        this.mapId = mapId;
     }
 
     public Cell getCell(int x, int y) {
@@ -47,4 +49,6 @@ public class GameMap {
         }
         return copy;
     }
+
+    public int getMapId() { return this.mapId; }
 }

@@ -29,8 +29,8 @@ public class SQLService {
 
     public void save() {
         Cell[][] cells = gameMap.getCells();
-
-        sqlDao.resetTables();
+        int mapId = gameMap.getMapId();
+        sqlDao.resetTables(mapId);
 
         for (int i = 0; i < cells.length; i++) {
             for (int j = 0; j < cells[i].length; j++) {
@@ -38,23 +38,26 @@ public class SQLService {
                 Item item = cells[i][j].getItem();
 
                 if (actor != null) {
-                    sqlDao.saveActor(actor.getTileName(), actor.getX(), actor.getY(), actor.getHealth(), actor.getAttackPower());
+                    sqlDao.saveActor(mapId, actor.getTileName(), actor.getX(), actor.getY(), actor.getHealth(), actor.getAttackPower());
                 }
                 if (item != null) {
-                    sqlDao.saveItem(item.getTileName(), item.getCell().getX(), item.getCell().getY());
+                    sqlDao.saveItem(mapId, item.getTileName(), item.getCell().getX(), item.getCell().getY());
                 }
             }
         }
 
         List<Item> inventory = gameMap.getPlayer().getInventory();
         for (Item inventoryItem : inventory) {
-            sqlDao.saveInventoryItem(inventoryItem.getDisplayName());
+            sqlDao.saveInventoryItem(mapId, inventoryItem.getDisplayName());
         }
     }
 
     public void load() {
         // Reset GameMap
         Cell[][] cells = gameMap.getCells();
+        int mapId = gameMap.getMapId();
+
+        Tiles.changeTileMap("player", 25, 0);
 
         for (Cell[] cell : cells) {
             for (Cell value : cell) {
@@ -68,17 +71,17 @@ public class SQLService {
         }
         gameMap.setPlayer(null);
 
-        List<ActorData> actors = sqlDao.loadActors();
+        List<ActorData> actors = sqlDao.loadActors(mapId);
         for (ActorData actorData : actors) {
             loadActor(actorData.name(), actorData.x(), actorData.y(), actorData.health(), actorData.attackPower());
         }
 
-        List<ItemData> items = sqlDao.loadItems();
+        List<ItemData> items = sqlDao.loadItems(mapId);
         for (ItemData itemData : items) {
             loadItem(itemData.name(), itemData.x(), itemData.y());
         }
 
-        List<InventoryData> inventoryItems = sqlDao.loadInventoryItems();
+        List<InventoryData> inventoryItems = sqlDao.loadInventoryItems(mapId);
         for (InventoryData inventoryItem : inventoryItems) {
             loadInventoryItem(inventoryItem.name());
         }

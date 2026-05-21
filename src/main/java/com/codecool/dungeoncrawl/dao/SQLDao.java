@@ -23,17 +23,18 @@ public class SQLDao {
 
     //SAVE
 
-    public void saveActor(String name, int x, int y, int health, int attackPower) {
+    public void saveActor(int mapId, String name, int x, int y, int health, int attackPower) {
 
         try (Connection conn = dataSource.getConnection()) {
-            String sql = "INSERT INTO actors (name, x, y, health, attackpower) VALUES (?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO actors (mapId, name, x, y, health, attackpower) VALUES (?, ?, ?, ?, ?, ?)";
 
             PreparedStatement st = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            st.setString(1, name);
-            st.setInt(2, x);
-            st.setInt(3, y);
-            st.setInt(4, health);
-            st.setInt(5, attackPower);
+            st.setInt(1, mapId);
+            st.setString(2, name);
+            st.setInt(3, x);
+            st.setInt(4, y);
+            st.setInt(5, health);
+            st.setInt(6, attackPower);
             st.executeUpdate();
 
         } catch (SQLException e) {
@@ -41,14 +42,15 @@ public class SQLDao {
         }
     }
 
-    public void saveItem(String name, int x, int y) {
+    public void saveItem(int mapId, String name, int x, int y) {
         try (Connection conn = dataSource.getConnection()) {
-            String sql = "INSERT INTO items (name, x, y) VALUES (?, ?, ?)";
+            String sql = "INSERT INTO items (mapId, name, x, y) VALUES (?, ?, ?, ?)";
 
             PreparedStatement st = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            st.setString(1, name);
-            st.setInt(2, x);
-            st.setInt(3, y);
+            st.setInt(1, mapId);
+            st.setString(2, name);
+            st.setInt(3, x);
+            st.setInt(4, y);
             st.executeUpdate();
 
         } catch (SQLException e) {
@@ -56,12 +58,13 @@ public class SQLDao {
         }
     }
 
-    public void saveInventoryItem(String name) {
+    public void saveInventoryItem(int mapId, String name) {
         try (Connection conn = dataSource.getConnection()) {
-            String sql = "INSERT INTO inventory_items (name) VALUES (?)";
+            String sql = "INSERT INTO inventory_items (mapId, name) VALUES (?, ?)";
 
             PreparedStatement st = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            st.setString(1, name);
+            st.setInt(1, mapId);
+            st.setString(2, name);
             st.executeUpdate();
 
         } catch (SQLException e) {
@@ -71,11 +74,12 @@ public class SQLDao {
 
     //LOAD
 
-    public List<ActorData> loadActors() {
+    public List<ActorData> loadActors(int mapId) {
         try (Connection conn = dataSource.getConnection()) {
-            String sql = "SELECT * FROM actors";
+            String sql = "SELECT * FROM actors WHERE mapId = ?";
 
             PreparedStatement st = conn.prepareStatement(sql);
+            st.setInt(1, mapId);
             ResultSet rs = st.executeQuery();
 
             List<ActorData> actors = new ArrayList<>();
@@ -92,11 +96,12 @@ public class SQLDao {
         }
     }
 
-    public List<ItemData> loadItems() {
+    public List<ItemData> loadItems(int mapId) {
         try (Connection conn = dataSource.getConnection()) {
-            String sql = "SELECT * FROM items";
+            String sql = "SELECT * FROM items WHERE mapId = ?";
 
             PreparedStatement st = conn.prepareStatement(sql);
+            st.setInt(1, mapId);
             ResultSet rs = st.executeQuery();
 
             List<ItemData> items = new ArrayList<>();
@@ -113,11 +118,12 @@ public class SQLDao {
         }
     }
 
-    public List<InventoryData> loadInventoryItems() {
+    public List<InventoryData> loadInventoryItems(int mapId) {
         try (Connection conn = dataSource.getConnection()) {
-            String sql = "SELECT * FROM inventory_items";
+            String sql = "SELECT * FROM inventory_items WHERE mapId = ?";
 
             PreparedStatement st = conn.prepareStatement(sql);
+            st.setInt(1, mapId);
             ResultSet rs = st.executeQuery();
 
             List<InventoryData> inventoryItems = new ArrayList<>();
@@ -136,8 +142,8 @@ public class SQLDao {
         PGSimpleDataSource dataSource = new PGSimpleDataSource();
 
         dataSource.setDatabaseName("dungeon_crawl");
-        dataSource.setUser("postgres");
-        dataSource.setPassword("Q4w3e2r1!");
+        dataSource.setUser(System.getenv("DB_USER"));
+        dataSource.setPassword(System.getenv("DB_PASSWORD"));
 
         System.out.println("Trying to connect...");
         dataSource.getConnection().close();
@@ -146,16 +152,17 @@ public class SQLDao {
         return dataSource;
     }
 
-    public void resetTables() {
+    public void resetTables(int mapId) {
         try (Connection conn = dataSource.getConnection()) {
             String[] sqls = {
-                    "DELETE FROM actors",
-                    "DELETE FROM items",
-                    "DELETE FROM inventory_items"
+                    "DELETE FROM actors WHERE mapId = ?",
+                    "DELETE FROM items WHERE mapId = ?",
+                    "DELETE FROM inventory_items WHERE mapId = ?"
             };
 
             for (String sql : sqls) {
                 try (PreparedStatement st = conn.prepareStatement(sql)) {
+                    st.setInt(1, mapId);
                     st.executeUpdate();
                 }
             }
