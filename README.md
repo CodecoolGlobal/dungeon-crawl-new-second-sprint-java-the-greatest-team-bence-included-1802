@@ -16,7 +16,6 @@
 - [How the code fits together](#-how-the-code-fits-together)
 - [Saving and loading](#-saving-and-loading)
 - [Tests](#-tests)
-- [Known bugs](#-known-bugs)
 - [Team](#-team)
 
 </details>
