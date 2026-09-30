@@ -29,8 +29,12 @@ Watch where you step, though. If you're careless you'll flush your sword down th
 
 ## 🧰 Built with
 
-<a href="https://adoptium.net/temurin/releases/"><img src="https://img.shields.io/badge/Java-25-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white" alt="Java 25"></a> <a href="https://openjfx.io/"><img src="https://img.shields.io/badge/JavaFX-17.0.1-4B7BBE?style=for-the-badge&logo=openjdk&logoColor=white" alt="JavaFX 17.0.1"></a> <a href="https://maven.apache.org/"><img src="https://img.shields.io/badge/Maven-3-C71A36?style=for-the-badge&logo=apachemaven&logoColor=white" alt="Maven"></a>
-<a href="https://www.postgresql.org/"><img src="https://img.shields.io/badge/PostgreSQL-JDBC_42.2.5-4169E1?style=for-the-badge&logo=postgresql&logoColor=white" alt="PostgreSQL JDBC 42.2.5"></a> <a href="https://junit.org/"><img src="https://img.shields.io/badge/JUnit-5.3.2-25A162?style=for-the-badge&logo=junit5&logoColor=white" alt="JUnit 5.3.2"></a> <a href="https://site.mockito.org/"><img src="https://img.shields.io/badge/Mockito-mocks-78A641?style=for-the-badge" alt="Mockito"></a>
+- <a href="https://adoptium.net/temurin/releases/"><img src="https://img.shields.io/badge/Java-25-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white" alt="Java 25"></a> 
+- <a href="https://openjfx.io/"><img src="https://img.shields.io/badge/JavaFX-17.0.1-4B7BBE?style=for-the-badge&logo=openjdk&logoColor=white" alt="JavaFX 17.0.1"></a> 
+- <a href="https://maven.apache.org/"><img src="https://img.shields.io/badge/Maven-3-C71A36?style=for-the-badge&logo=apachemaven&logoColor=white" alt="Maven"></a>
+- <a href="https://www.postgresql.org/"><img src="https://img.shields.io/badge/PostgreSQL-JDBC_42.2.5-4169E1?style=for-the-badge&logo=postgresql&logoColor=white" alt="PostgreSQL JDBC 42.2.5"></a> 
+- <a href="https://junit.org/"><img src="https://img.shields.io/badge/JUnit-5.3.2-25A162?style=for-the-badge&logo=junit5&logoColor=white" alt="JUnit 5.3.2"></a> 
+- <a href="https://site.mockito.org/"><img src="https://img.shields.io/badge/Mockito-mocks-78A641?style=for-the-badge" alt="Mockito"></a>
 
 The pom compiles with source/target 25, and the code itself needs at least 17 (records, pattern-matching `instanceof`, switch expressions). JavaFX is started through `javafx-maven-plugin` 0.0.3, and the artifact is `com.codecool:dungeon-crawl:1.0-SNAPSHOT`.
 
